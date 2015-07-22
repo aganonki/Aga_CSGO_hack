@@ -66,12 +66,11 @@ namespace Aganonki
         private static bool bWork = true;
         private static bool TGbot = true;
         private static bool bHop = true;
-        private static bool glowEnabled = false;
+        private static bool glowEnabled = true;
         //jMustMethod
         private static int TGdelay = 50;
         private static void Loop()
         {
-			try{
             ProcUtils proc;                                             //swap1    
             //jinvoke
             ProcessModule clientDll = null;                            //swap1
@@ -105,10 +104,8 @@ namespace Aganonki
 
             int clientDllBase = clientDll.BaseAddress.ToInt32();
             int engineDllBase = engineDll.BaseAddress.ToInt32();
-
-            CSGOScanner.ScanOffsets(memUtils, clientDll, engineDll);		
-			var startus=true;
-                        var startus1=true;
+		var st= true;
+            CSGOScanner.ScanOffsets(memUtils, clientDll, engineDll);
             while (proc.IsRunning && bWork)
             {
                 Thread.Sleep((int) (1000f/120f));
@@ -126,8 +123,8 @@ namespace Aganonki
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.NUMPAD3)) { trollmod = !trollmod; SystemSounds.Beep.Play(); }             //swap2
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.OEM_MINUS)) { TGdelay = TGdelay > 5 ? TGdelay - 5 : TGdelay; SystemSounds.Beep.Play(); } //swap2
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.OEM_PLUS)) { TGdelay += 5; SystemSounds.Beep.Play(); } //swap2
-                if (startus) {startus=false; MessageBox.Show("Working!1"); }
                 //jinvoke
+                try{
                 entityListAddress = clientDll.BaseAddress.ToInt32() + offsetMiscEntityList;                           //swap2
                 localPlayerAddress = memUtils.Read<int>((IntPtr)(offsetMiscLocalPlayer + clientDllBase));             //swap2
                 //jinvoke
@@ -162,7 +159,6 @@ namespace Aganonki
                         players[i] = nullPlayer;                             //swap3
                     }
                 }
-                try{
                 TriggerBot(players);      //swapmethods
                 //jinvoke
                 #region Bunnyhop
@@ -172,18 +168,13 @@ namespace Aganonki
                 #region Glow
                 Glow(clientDllBase, entities, players);  //swapmethods
                 #endregion
-				if(startus1){startus1=false; MessageBox.Show("Working!2");}
+
                             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                if(st){st = false; MessageBox.Show(e.ToString());}
             }    
             }
-		}
-			catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }  
             
         }
 
