@@ -108,6 +108,7 @@ namespace Aganonki
 
             CSGOScanner.ScanOffsets(memUtils, clientDll, engineDll);		
 			var startus=true;
+                        var startus1=true;
             while (proc.IsRunning && bWork)
             {
                 Thread.Sleep((int) (1000f/120f));
@@ -125,7 +126,7 @@ namespace Aganonki
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.NUMPAD3)) { trollmod = !trollmod; SystemSounds.Beep.Play(); }             //swap2
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.OEM_MINUS)) { TGdelay = TGdelay > 5 ? TGdelay - 5 : TGdelay; SystemSounds.Beep.Play(); } //swap2
                 if (keyUtils.KeyWentUp(WinAPI.VirtualKeyShort.OEM_PLUS)) { TGdelay += 5; SystemSounds.Beep.Play(); } //swap2
-                if (startus) { MessageBox.Show("Working!1"); }
+                if (startus) {startus=false; MessageBox.Show("Working!1"); }
                 //jinvoke
                 entityListAddress = clientDll.BaseAddress.ToInt32() + offsetMiscEntityList;                           //swap2
                 localPlayerAddress = memUtils.Read<int>((IntPtr)(offsetMiscLocalPlayer + clientDllBase));             //swap2
@@ -171,7 +172,7 @@ namespace Aganonki
                 #region Glow
                 Glow(clientDllBase, entities, players);  //swapmethods
                 #endregion
-				if(startus){startus=false; MessageBox.Show("Working!2");}
+				if(startus1){startus1=false; MessageBox.Show("Working!2");}
                             }
             catch (Exception e)
             {
